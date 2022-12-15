@@ -41,6 +41,29 @@ public class Connect {
         }
         return data;
     }
+    
+    public ArrayList<String> selectGroupBy(String[] columnsArray,String columnName, String table) {
+        ArrayList<String> data = new ArrayList<String>();
+
+        String columnsString = String.join(", ", columnsArray);
+        String sql = "SELECT " + columnsString + " FROM " + table  + "GROUP BY" + columnName;
+        System.out.println(sql);
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String row = "";
+                for (int i = 0; i < columnsArray.length; i++) {
+                    row += rs.getString(columnsArray[i]) + "---";
+                }
+                data.add(row);
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return data;
+    }
 
     public ArrayList<String> selectWhere(String[] columnsArray, int[] whereColIndex, String[] whereValue, String table) {
         ArrayList<String> data = new ArrayList<String>();
